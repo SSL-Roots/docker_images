@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: grsim
+  DIR_NAME: grsim
 
 jobs:
   build-and-push-image:
@@ -33,12 +33,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.DIR_NAME }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: grsim
+          context: ${{ env.DIR_NAME }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
