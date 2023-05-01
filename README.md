@@ -76,6 +76,13 @@ $ google-chrome http://localhost:8083
 
 ![](images/ssl-remote-control.png)
 
+## TIGERs Mannheim's Auto Referee
+
+[TIGERs-Mannheim/AutoReferee](https://github.com/TIGERs-Mannheim/AutoReferee)
+
+```sh
+$ docker run --net host  -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY tigersmannheim/auto-referee-vnc
+```
 
 ## ER-Force's Auto Referee
 
