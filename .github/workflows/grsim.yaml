@@ -10,10 +10,14 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  DIR_NAME: grsim
 
 jobs:
   build-and-push-image:
+    strategy:
+      matrix:
+        env:
+          - { DIR_NAME: grsim }
+          - { DIR_NAME: grsim_vssl }
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -21,10 +25,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -34,12 +38,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.DIR_NAME }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.env.DIR_NAME }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ${{ env.DIR_NAME }}
+          context: ${{ matrix.env.DIR_NAME }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
