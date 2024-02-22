@@ -12,7 +12,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Build and Install grSim
-RUN git clone --depth=1 https://github.com/RoboCup-SSL/grSim.git \
+RUN git clone -b fix_present --depth=1 https://github.com/SSL-Roots/grSim.git \
     && cd grSim \
     && mkdir build \
     && cd build \
